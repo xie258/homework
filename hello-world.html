@@ -1,6 +1,60 @@
-<Doctype HTML>
-  <html>
-    <body>
-      <h1>hello world!</h1>
-    </body>
-  </html>
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" contect='width=dive-width, user-scalable=no, minimum-scale=1.8, maximum-scale=1.0'>
+  <title>Hello, world!</title>
+
+  <script src='js/three.js'></script>
+  <script src='jsartoolkit5/artoolkit.min.js'></script>
+  <script src='jsartoolkit5/artoolkit.api.js'></script>
+
+  <script src="threex/threex-artoolkitsource.js"></script>
+	<script src="threex/threex-artoolkitcontext.js"></script>
+	<script src="threex/threex-arbasecontrols.js"></script>
+	<script src="threex/threex-armarkercontrols.js"></script>
+</head>
+
+<script>
+  var scene, camera, renderer, clock, deltaTime, totalTime;
+
+  var arToolkitSource, arToolkitContext;
+
+  var markerRoot1;
+
+  var mesh1;
+
+  initialize();
+  animate();
+
+  function initialize()
+  {
+    scene = new THREE.Scene();
+
+    let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
+    scene.add( ambientLight );
+
+    camera = new THREE.Camera();
+    scene.add(camera);
+
+    renderer  = new THREE.WebGLRenderer({
+      antialias : ture,
+      alpha: ture
+    });
+
+    renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+    renderer.setSize( 640, 400);
+    renderer.domElement.style.position = 'absolute'
+    renderer.domElement.style.top= '9px'
+    renderer.domElement.style.left= '0px'
+    document.body.appendChild( renderer.domElement);
+
+    clock = new THREE.Clock();
+    deltaTime = 0;
+    totalTime =0;
+
+    arToolkitSource = new THREEx.ArToolkitSource({
+      sourceType : 'webcam',
+    });
+
+
+  }
+</script>

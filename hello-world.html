@@ -161,8 +161,7 @@ function drawline(e)
     var mouse = new THREE.Vector2();
 
 	var raycaster = new THREE.Raycaster();
-    
-	event.preventDefault();
+
 	mouse.x=(e.clientX/window.innerWidth)*2-1;
 	mouse.y=-(e.clientY/window.innerHeight)*2+1;
 	//两点坐标

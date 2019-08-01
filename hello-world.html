@@ -143,7 +143,7 @@ function animate()
 {
 	requestAnimationFrame(animate);
 	var frame = document.getElementById('canvas-frame');
-	frame.onmousedown = drawline(e);
+	frame.onmousedown = drawline();
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
 	update();

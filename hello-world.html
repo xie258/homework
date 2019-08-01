@@ -55,6 +55,8 @@ function initialize()
 				
 	camera = new THREE.Camera();  //相机
 	scene.add(camera); //添加相机
+
+	
 	renderer = new THREE.WebGLRenderer({  //渲染器
 		antialias : true,  //执行抗锯齿
 		alpha: true  //canvas 是否包含alpha（透明度）
@@ -145,8 +147,30 @@ function animate()
 	update();
 	render();
 }
+
+function drawline()
+{
+	var geometry = new THREE.Geometry();  //生命几何体
+	var material = new THREE.LineBasicMaterial( {vertexColors:true})  //画线材质
+    var color1 = new THREE.Color(0x444444);
+	var color2 = new THREE.Color(0x666666);
+
+
+	//两点坐标
+	var p1 = new THREE.Vector3(-100, 0, 100);
+	var p2 = new THREE.Vector3(100, 0, -100);
+	geometry.vertices.push(p1);
+	geometry.vertices.push(p2);
+	geometry.colors.push(color1, color2);
+
+	var line = new THREE.Line( geometry, material );
+	scene.add(line);
+	
+
+}
 </script>
 
 <div id="canvas-frame"></div>
+<button onclick="drawline()">画线</button>
 </body>
 </html>

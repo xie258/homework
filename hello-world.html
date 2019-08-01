@@ -149,7 +149,7 @@ function animate()
 	render();
 }
 
-function drawline()
+function drawline(event)
 {
 	var geometry = new THREE.Geometry();  //生命几何体
 	var material = new THREE.LineBasicMaterial( {vertexColors:true})  //画线材质
@@ -157,8 +157,14 @@ function drawline()
 	var color2 = new THREE.Color(0x666666);
 
 
+    var mouse = new THREE.Vector2();
+
+	var raycaster = new THREE.Raycaster();
+
+	mouse.x=(event.clientX/window.innerWidth)*2-1;
+	mouse.y=-(event.clientY/window.innerHeight)*2+1;
 	//两点坐标
-	var p1 = new THREE.Vector3(-100, 0, 100);
+	var p1 = new THREE.Vector3(mouse.x, 0, mouse.y);
 	var p2 = new THREE.Vector3(100, 0, -100);
 	geometry.vertices.push(p1);
 	geometry.vertices.push(p2);

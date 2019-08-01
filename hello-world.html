@@ -143,7 +143,29 @@ function animate()
 {
 	requestAnimationFrame(animate);
 	var frame = document.getElementById('canvas-frame');
-	frame.onmousedown = drawline();
+	frame.onmousedown = function(e){
+		
+	var geometry = new THREE.Geometry();  //生命几何体
+	var material = new THREE.LineBasicMaterial( {vertexColors:true})  //画线材质
+    var color1 = new THREE.Color(0x444444);
+	var color2 = new THREE.Color(0x666666);
+
+    var mouse = new THREE.Vector2();
+
+	var raycaster = new THREE.Raycaster();
+
+	mouse.x=(e.clientX/window.innerWidth)*2-1;
+	mouse.y=-(e.clientY/window.innerHeight)*2+1;
+	//两点坐标
+	var p1 = new THREE.Vector3(mouse.x, 0, mouse.y);
+	var p2 = new THREE.Vector3(100, 0, -100);
+	geometry.vertices.push(p1);
+	geometry.vertices.push(p2);
+	geometry.colors.push(color1, color2);
+
+	var line = new THREE.Line( geometry, material );
+	scene.add(line);
+	}
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
 	update();

@@ -142,6 +142,7 @@ function render()
 function animate()
 {
 	requestAnimationFrame(animate);
+	drawline();
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
 	update();
@@ -171,6 +172,5 @@ function drawline()
 </script>
 
 <div id="canvas-frame"></div>
-<button onclick="drawline()">画线</button>
 </body>
 </html>

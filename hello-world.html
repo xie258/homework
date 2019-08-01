@@ -144,7 +144,7 @@ function animate()
 	requestAnimationFrame(animate);
 	var frame = document.getElementById('canvas-frame');
 	frame.onmousedown = function(e){
-		
+
 	var geometry = new THREE.Geometry();  //生命几何体
 	var material = new THREE.LineBasicMaterial( {vertexColors:true})  //画线材质
     var color1 = new THREE.Color(0x444444);
@@ -165,7 +165,8 @@ function animate()
 
 	var line = new THREE.Line( geometry, material );
 	scene.add(line);
-	}
+	};
+
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
 	update();

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 	<title>Hello, AR Cube!</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
@@ -30,23 +30,23 @@ initialize();
 animate();
 function initialize()
 {
-	scene = new THREE.Scene();
-	let ambientLight = new THREE.AmbientLight( 0xcccccc, 0.5 );
-	scene.add( ambientLight );
+	scene = new THREE.Scene(); //场景
+	let ambientLight = new THREE.AmbientLight( 0xcccccc, 0.5 ); //环境光，应用到全局
+	scene.add( ambientLight ); //将指定的光源颜色添加到场景当中
 				
-	camera = new THREE.Camera();
-	scene.add(camera);
-	renderer = new THREE.WebGLRenderer({
-		antialias : true,
-		alpha: true
+	camera = new THREE.Camera();  //相机
+	scene.add(camera); //添加相机
+	renderer = new THREE.WebGLRenderer({  //渲染器
+		antialias : true,  //执行抗锯齿
+		alpha: true  //canvas 是否包含alpha（透明度）
 	});
-	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-	renderer.setSize( 640, 480 );
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)  //设置颜色和透明度
+	renderer.setSize( 640, 480 );  //调整canvas大小
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
-	document.body.appendChild( renderer.domElement );
-	clock = new THREE.Clock();
+	document.body.appendChild( renderer.domElement ); //一个canvas，渲染器在其上绘制输出
+	clock = new THREE.Clock();  //创建时钟来记录时间
 	deltaTime = 0;
 	totalTime = 0;
 	
@@ -54,7 +54,7 @@ function initialize()
 	// setup arToolkitSource
 	////////////////////////////////////////////////////////////
 	arToolkitSource = new THREEx.ArToolkitSource({
-		sourceType : 'webcam',
+		sourceType : 'webcam',  //图像来源 网络摄像机
 	});
 	function onResize()
 	{
@@ -79,8 +79,8 @@ function initialize()
 	////////////////////////////////////////////////////////////	
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
-		cameraParametersUrl: 'data/camera_para.dat',
-		detectionMode: 'mono'
+		cameraParametersUrl: 'data/camera_para.dat', //读取摄像机参数
+		detectionMode: 'mono'  //探测模式   
 	});
 	
 	// copy projection matrix to camera when initialization complete
@@ -91,7 +91,7 @@ function initialize()
 	// setup markerRoots
 	////////////////////////////////////////////////////////////
 	// build markerControls
-	markerRoot1 = new THREE.Group();
+	markerRoot1 = new THREE.Group(); //用group操作一组对象，包括旋转，缩放，移动
 	scene.add(markerRoot1);
 	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
 		type: 'pattern', patternUrl: "data/hiro.patt",

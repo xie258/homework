@@ -11,13 +11,15 @@
 
             <script>
                 window.onload = function(){
-                    var canvas = document.getElementById('canvas')[0],
+                    var canvas = document.getElementsByTagName('canvas')[0],
                         context = canvas.getContext('2d'), 
                         video = document.getElementsByTagName("video"), 
                         snap = document.getElementById("snap"), 
                         close = document.getElementById("close"), 
                         start = document.getElementById("start"), 
                         MediaStreamTrack;
+
+                        console.log(canvas);
 
                     start.addEventListener('click',function(){
                         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia){

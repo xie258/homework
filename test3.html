@@ -92,6 +92,43 @@ function initialize()
                 scene.add(line);
     }
 
+
+    renderer.domElement.touchstart = function(e){
+        console.log("load start success")
+        console.log(e.clientX);
+        e.preventDefault();  //cancel default action
+
+        point1 = new THREE.Vector3();
+        point1.set(
+            ( e.clientX / window.innerWidth ) * 2 - 1, 
+            - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        console.log(point1)
+    }
+
+    renderer.domElement.touchend = function(e){
+        e.preventDefault();  //cancel default action
+        point2 = new THREE.Vector3();
+        point2.set(
+            ( e.clientX / window.innerWidth ) * 2 - 1, 
+            - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        console.log(point2)
+
+        var geometry = new THREE.Geometry();
+                var material = new THREE.LineBasicMaterial( { vertexColors: true } );
+                var color1 = new THREE.Color( 0x443354 ), color2 = new THREE.Color( 0x050250 );
+                   // 线的材质可以由2点的颜色决定
+                var p1 = point1
+                var p2 = point2
+                geometry.vertices.push(p1);
+                geometry.vertices.push(p2);
+                geometry.colors.push( color1, color2 );
+
+                var line = new THREE.Line( geometry, material, THREE.LinePieces );
+                scene.add(line);
+    }
+
+
+
 	clock = new THREE.Clock();
 	deltaTime = 0;
 	totalTime = 0;

@@ -54,6 +54,43 @@ function initialize()
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
 	document.body.appendChild( renderer.domElement );
+    console.log(document.body)
+    console.log(renderer.domElement)
+    
+    var point1,point2;
+    renderer.domElement.onmousedown = function(e){
+        console.log("load canvas success")
+        console.log(e.clientX);
+        e.preventDefault();  //cancel default action
+
+        point1 = new THREE.Vector3();
+        point1.set(
+            ( e.clientX / window.innerWidth ) * 2 - 1, 
+            - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        console.log(point1)
+    }
+
+    renderer.domElement.onmouseup = function(e){
+        e.preventDefault();  //cancel default action
+        point2 = new THREE.Vector3();
+        point2.set(
+            ( e.clientX / window.innerWidth ) * 2 - 1, 
+            - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        console.log(point2)
+
+        var geometry = new THREE.Geometry();
+                var material = new THREE.LineBasicMaterial( { vertexColors: true } );
+                var color1 = new THREE.Color( 0x443354 ), color2 = new THREE.Color( 0x050250 );
+                   // 线的材质可以由2点的颜色决定
+                var p1 = point1
+                var p2 = point2
+                geometry.vertices.push(p1);
+                geometry.vertices.push(p2);
+                geometry.colors.push( color1, color2 );
+
+                var line = new THREE.Line( geometry, material, THREE.LinePieces );
+                scene.add(line);
+    }
 
 	clock = new THREE.Clock();
 	deltaTime = 0;
@@ -135,16 +172,35 @@ function initialize()
 	mesh2.position.y = 0.4;
     
     scene.add( mesh1)
-    scene.add(mesh2);
+    // scene.add(mesh2);
 
 
-    var cube = new THREE.Mesh(new THREE.CubeGeometry(1,2,3),
-    new THREE.MeshBasicMaterial({color:0xff8800}));
-    scene.add(cube);
-    camera2 = new THREE.PerspectiveCamera( 45,4 / 3, 1, 1000 );
-    camera2.position.set(0,0,5);
-    scene.add(camera2)
-    renderer.render(scene, camera2);
+    // var cube = new THREE.Mesh(new THREE.CubeGeometry(1,2,3),
+    // new THREE.MeshBasicMaterial({color:0xff8800}));
+    // scene.add(cube);
+    // camera2 = new THREE.PerspectiveCamera( 45,4 / 3, 1, 1000 );
+    // camera2.position.set(0,0,5);
+    // scene.add(camera2)
+    // renderer.render(scene, camera2);
+
+
+                var geometry = new THREE.Geometry();
+                var material = new THREE.LineBasicMaterial( { vertexColors: true } );
+                var color1 = new THREE.Color( 0x443354 ), color2 = new THREE.Color( 0x050250 );
+                   // 线的材质可以由2点的颜色决定
+                var p1 = new THREE.Vector3( -99, 1, 100 );
+                var p2 = new THREE.Vector3(  100, 0, -99);
+                geometry.vertices.push(p1);
+                geometry.vertices.push(p2);
+                geometry.colors.push( color1, color2 );
+
+                var line = new THREE.Line( geometry, material, THREE.LinePieces );
+                scene.add(line);
+
+              
+
+                //renderer.clear();
+                //renderer.render( scene, camera);
 }
 
 
@@ -170,6 +226,15 @@ function animate()
 	update();
 	render();
 }
+
+
+var canvas = document.getElementsByTagName("canvas");
+                console.log(canvas)
+                canvas.onmousedown = function(e){
+                    console.log(e.clientX);
+                    console.log(e.clientY);
+                    console.log("hh")
+                };
 
 </script>
 

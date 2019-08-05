@@ -105,13 +105,30 @@ function initialize()
         console.log(point1)
     }
 
-    renderer.domElement.touchend = function(e){
+	//触摸
+
+	var canvas = renderer.domElement;
+
+	canvas.addEventListener("touchstart",function(e){
+        console.log("load start success")
+        console.log(e.clientX);
         e.preventDefault();  //cancel default action
+
+        point1 = new THREE.Vector3();
+        point1.set(
+            ( e.clientX / window.innerWidth ) * 2 - 1, 
+            - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
+        console.log("point1")
+
+    });
+
+	canvas.addEventListener("touchend",function(e){
+		e.preventDefault();  //cancel default action
         point2 = new THREE.Vector3();
         point2.set(
             ( e.clientX / window.innerWidth ) * 2 - 1, 
             - ( e.clientY / window.innerHeight ) * 2 + 1, 0.5);
-        console.log(point2)
+        console.log("point2")
 
         var geometry = new THREE.Geometry();
                 var material = new THREE.LineBasicMaterial( { vertexColors: true } );
@@ -125,8 +142,7 @@ function initialize()
 
                 var line = new THREE.Line( geometry, material, THREE.LinePieces );
                 scene.add(line);
-    }
-
+    });
 
 
 	clock = new THREE.Clock();

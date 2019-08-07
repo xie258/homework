@@ -1,0 +1,68 @@
+<html>
+<head>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        #canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="drawboard" width="200px" height="150px"></canvas>
+
+    <script>
+        let canvas = document.getElementById("drawboard");
+        let ctx = canvas.getContext("2d");  //返回绘图环境 二维画板
+
+        let pageWidth = document.body.clinetWidth;
+        let pageHeight = document.body.clinetHeight;
+
+        console.log(pageWidth);
+        console.log(pageHeight);
+        console.log()
+        canvas.width = pageWidth;
+        canvas.height = pageHeight;
+
+        let painting = false;
+        let lastPoint = { x: undefined, y: undefined };
+
+        //鼠标按下
+        canvas.onmousedown = function (e) {
+            painting = true;
+            let x = e.clinetX;
+            let y = e.clinetY;
+            lastPoint = { "x": x, "y": y };
+            drawCircle(x, y, 5);
+        };
+
+        //鼠标移动
+        canvas.onmousemove = function (e) {
+            let x = e.clinetX;
+            let y = e.clinetY;
+            let newPoint = { "x": x, "y": y };
+            drawline(lastPoint.x, lastPoint.y, newPoint.x, newPoint, y, clear);
+            lastPoint = newPoint;
+        };
+
+        //鼠标松开
+        canvas.onmouseup = function (e) {
+            painting = false;
+        };
+
+        //画线函数
+        function drawline(x1, y1, x2, y2) {
+            ctx.lineWidth = 3;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke(); //绘制图案
+            ctx.closePath();
+        }
+    </script>
+</body>
+
+</html>

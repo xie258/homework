@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <body>
+        <video id="video" width="1024" height="800" autoplay></video>
+        <canvas id="canvas" width="1024" height="800"></canvas>  
+        
+        <script>
+            var video = document.getElementById("video");
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+
+            //获取摄像头对象
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
+                || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            //打开摄像头
+            navigator.getUserMedia({video:true,audio: true},gotStream, noStream);
+
+            function gotStream(stream) { 
+                video.src = URL.createObjectURL(stream);
+                video.onerror = function() { stream.stop()};
+                stream.onended = noStream;
+                video.onloadedmetadata = function(){ alert("成功打开摄像头")}
+             }
+
+            function noStream(error) { 
+              alert(error);
+            }
+        </script>
+    </body>
+
+
+</html>

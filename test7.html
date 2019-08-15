@@ -47,6 +47,7 @@
                 canvas: document.getElementById('canvas')
             })
 
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
             //开启设备摄像头
             arToolkitSource = new THREEx.ArToolkitSource({
 				sourceType: 'webcam',

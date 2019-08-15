@@ -1,3 +1,17 @@
 屏幕坐标与世界坐标转化
 
 url：https://segmentfault.com/a/1190000010490845?utm_source=tag-newest
+
+PerspectiveCamera(fov, aspect, near, far)
+
+Fov – 相机的视锥体的垂直视野角
+
+Aspect – 相机视锥体的长宽比
+
+Near – 相机视锥体的近平面
+
+Far – 相机视锥体的远平面
+
+
+artoolkit 教程https://blog.csdn.net/milli236/article/details/78671958
+https://blog.csdn.net/milli236/article/details/78671958

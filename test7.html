@@ -42,33 +42,33 @@
 
             renderer = new THREE.WebGLRenderer({
                 antialias: true,  //反锯齿
-				alpha: true,   //背景透明
+                alpha: true,   //背景透明
                 canvas: document.getElementById('canvas')
             })
 
             renderer.setClearColor(new THREE.Color(0x000000), 0)
             //开启设备摄像头
             arToolkitSource = new THREEx.ArToolkitSource({
-				sourceType: 'webcam',
+                sourceType: 'webcam',
             });
-            
-            function onResize() {
-				arToolkitSource.onResize()
-				arToolkitSource.copySizeTo(renderer.domElement)
-				if (arToolkitContext.arController !== null) {
-					arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
-				}
-			}
 
-			arToolkitSource.init(function onReady() {
-				onResize()
-			});
+            function onResize() {
+                arToolkitSource.onResize()
+                arToolkitSource.copySizeTo(renderer.domElement)
+                if (arToolkitContext.arController !== null) {
+                    arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
+                }
+            }
+
+            arToolkitSource.init(function onReady() {
+                onResize()
+            });
 
             arToolkitContext = new THREEx.ArToolkitContext({
-				cameraParametersUrl: 'https://xie258.github.io/homework/data/camera_para.dat',
-				detectionMode: 'mono'
-			});
-           
+                cameraParametersUrl: 'https://xie258.github.io/homework/data/camera_para.dat',
+                detectionMode: 'mono'
+            });
+
         }
 
         function render() {
@@ -90,64 +90,29 @@
         let canvas = document.getElementById("canvas");
         let ctx = canvas.getContext("webgl");
 
-        console.log( canvas)
-        console.log(ctx);     
+        console.log(canvas)
+        console.log(ctx);
 
         var geometry = new THREE.Geometry();
-                var material = new THREE.LineBasicMaterial( { vertexColors: true } );
-                var color1 = new THREE.Color( 0x444444 ), color2 = new THREE.Color( 0xFF0000 );
+        var material = new THREE.LineBasicMaterial({ vertexColors: true });
+        var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
 
-                // 线的材质可以由2点的颜色决定
-                var p1 = new THREE.Vector3( -100, 0, 100 );
-                var p2 = new THREE.Vector3(  100, 0, -100 );
-                geometry.vertices.push(p1);
-                geometry.vertices.push(p2);
-                geometry.colors.push( color1, color2 );
+        canvas.onmousedown = function (e) {
+            var geometry = new THREE.Geometry();
+            var material = new THREE.LineBasicMaterial({ vertexColors: true });
+            var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
 
-                var line = new THREE.Line( geometry, material, new THREE.LineSegments( geometry, material ) );
-                scene.add(line);
-
-        // let painting = false;
-        // let lastPoint = { x: undefined, y: undefined };
-
-        // //鼠标按下
-        // canvas.onmousedown = function (e) {
-        //     console.log("dd")
-        //     painting = true;
-        //     let x = e.clientX;
-        //     let y = e.clientY;
-        //     lastPoint = { "x": x, "y": y };
-        //    // drawCircle(x, y, 5);
-        // };
-
-        // //鼠标移动
-        // canvas.onmousemove = function (e) {
-        //     let x = e.clientX;
-        //     let y = e.clientY;
-        //     let newPoint = { "x": x, "y": y };
-        //     drawline(lastPoint.x, lastPoint.y, newPoint.x, newPoint, y);
-        //     lastPoint = newPoint;
-        // };
-
-        // //鼠标松开
-        // canvas.onmouseup = function (e) {
-        //     painting = false;
-        // };
-
-        // //画线函数
-        // function drawline(x1, y1, x2, y2) {
-        //     if (painting) {
-        //         ctx.lineWidth = 3;
-        //         ctx.lineCap = "round";
-        //         ctx.lineJoin = "round";
-        //         ctx.moveTo(x1, y1);
-        //         ctx.lineTo(x2, y2);
-        //         ctx.stroke(); //绘制图案
-        //         ctx.closePath();
-        //     }
-
-        // }
-
+            let pX = (e.clientX / canvas.clientWidth) * 2 - 1;
+            let pY = - (e.clientY / canvas.clientHeight) * 2 + 1;
+            // 线的材质可以由2点的颜色决定
+            var p1 = new THREE.Vector3(0, 0, 0);
+            var p2 = new THREE.Vector3(pX, pY, 0);
+            geometry.vertices.push(p1);
+            geometry.vertices.push(p2);
+            geometry.colors.push(color1, color2);
+            var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
+            scene.add(line);
+        }
     </script>
 </body>
 

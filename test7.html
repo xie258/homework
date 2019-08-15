@@ -29,7 +29,6 @@
         var mesh1;
 
         initialize();
-        render();
         animate();
 
         function initialize() {
@@ -83,6 +82,7 @@
         }
 
         function animate() {
+            requestAnimationFrame(animate);
             update();
             render();
         }

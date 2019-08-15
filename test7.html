@@ -42,9 +42,12 @@
             scene.add(camera);
 
             renderer = new THREE.WebGLRenderer({
+                antialias: true,  //反锯齿
+				alpha: true,   //背景透明
                 canvas: document.getElementById('canvas')
             })
 
+            //开启设备摄像头
             arToolkitSource = new THREEx.ArToolkitSource({
 				sourceType: 'webcam',
             });

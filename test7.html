@@ -18,6 +18,9 @@
 
 <body>
     <canvas id="canvas"></canvas>
+    <button onclick="draw()">draw</button>
+    <button onclick="rotate()">rotate</button>
+    <button onclick="StopAnimate()">stop rotate</button>
 
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -28,17 +31,26 @@
 
         var mesh1;
 
+        var cube;
+
+        var flag = 0; // 动画对象
+
         initialize();
-        animate();
 
         function initialize() {
             scene = new THREE.Scene();
 
-            let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
-            scene.add(ambientLight);
+            // let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+            // scene.add(ambientLight);
+
+            var light = new THREE.PointLight(0xffffff, 1, 100); //创建光源
+            light.position.set(12, 15, 10); //设置光源的位置
+            scene.add(light); //在场景中添加光源
+
 
             camera = new THREE.Camera();
             scene.add(camera);
+            console.log(camera)
 
             renderer = new THREE.WebGLRenderer({
                 antialias: true,  //反锯齿
@@ -82,6 +94,10 @@
         }
 
         function animate() {
+            if (flag == 1) {
+                cube.rotation.x += 0.01; //x轴每秒旋转60次
+                cube.rotation.y += 0.01;//y轴每秒旋转60次*/
+            }
             requestAnimationFrame(animate);
             update();
             render();
@@ -97,22 +113,48 @@
         var material = new THREE.LineBasicMaterial({ vertexColors: true });
         var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
 
-        canvas.onmousedown = function (e) {
-            var geometry = new THREE.Geometry();
-            var material = new THREE.LineBasicMaterial({ vertexColors: true });
-            var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
+        //画线
+        // canvas.onmousedown = function (e) {
+        //     var geometry = new THREE.Geometry();
+        //     var material = new THREE.LineBasicMaterial({ vertexColors: true });
+        //     var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
 
-            let pX = (e.clientX / canvas.clientWidth) * 2 - 1;
-            let pY = - (e.clientY / canvas.clientHeight) * 2 + 1;
-            // 线的材质可以由2点的颜色决定
-            var p1 = new THREE.Vector3(0, 0, 0);
-            var p2 = new THREE.Vector3(pX, pY, 0);
-            geometry.vertices.push(p1);
-            geometry.vertices.push(p2);
-            geometry.colors.push(color1, color2);
-            var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
-            scene.add(line);
+        //     let pX = (e.clientX / canvas.clientWidth) * 2 - 1;
+        //     let pY = - (e.clientY / canvas.clientHeight) * 2 + 1;
+        //     // 线的材质可以由2点的颜色决定
+        //     var p1 = new THREE.Vector3(0, 0, 0);
+        //     var p2 = new THREE.Vector3(pX, pY, 0);
+        //     geometry.vertices.push(p1);
+        //     geometry.vertices.push(p2);
+        //     geometry.colors.push(color1, color2);
+        //     var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
+        //     scene.add(line);
+
+        //     var circle = new THREE.CircleGeometry(1, 1, 0, 2 * Math.PI);
+        //     scene.add(circle)
+        // }
+
+        //画长方体
+        function draw() {
+            if (!cube) {
+                var geometry = new THREE.BoxGeometry(1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({ color: "yellow" });
+                cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+                render();
+            }
+
         }
+
+        function rotate() {
+            flag = 1;
+            animate();
+        }
+
+        function StopAnimate() {
+            flag = 0;
+        }
+
     </script>
 </body>
 

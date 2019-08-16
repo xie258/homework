@@ -25,11 +25,12 @@
             <button onclick="enlarge()">enlarge</button>
             <button onclick="lessen()">lessen</button>
             <button onclick="drawline()">drawline</button>
+            <button onclick="ClearCanvas()">ClearCanvas</button>
     </p>
 
 
     <script>
-        var scene, camera, renderer, clock, deltaTime, totalTime;
+        var scene, camera, renderer, clock, deltaTime, totalTime, light;
 
         var arToolkitSource, arToolkitContext;
 
@@ -49,14 +50,13 @@
             // let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
             // scene.add(ambientLight);
 
-            var light = new THREE.PointLight(0xffffff, 1, 100); //创建光源
+            light = new THREE.PointLight(0xffffff, 1, 100); //创建光源
             light.position.set(12, 15, 10); //设置光源的位置
             scene.add(light); //在场景中添加光源
 
 
             camera = new THREE.Camera();
             scene.add(camera);
-            console.log(camera)
 
             renderer = new THREE.WebGLRenderer({
                 antialias: true,  //反锯齿
@@ -170,13 +170,14 @@
                 cube = new THREE.Mesh(geometry, material);
                 scene.add(cube);
                 render();
-                console.log(cube)
             }
 
         }
 
         //旋转
         function rotate() {
+            if (!cube) 
+                return;
             if (flag == 1) {
                 flag = 0;
                 return;
@@ -192,6 +193,8 @@
 
         //放大
         function enlarge() {
+            if (!cube) 
+                return;
             if (flag == 2) {
                 flag = 0;
                 return;
@@ -202,12 +205,23 @@
 
         //缩小
         function lessen() {
+            if (!cube) 
+                return;
             if (flag == 3) {
                 flag = 0;
                 return;
             }
             flag = 3;
             animate();
+        }
+
+        //清除画布
+        function ClearCanvas() {
+            scene = new THREE.Scene();
+            scene.add(light);
+            scene.add(camera);
+            renderer.render(scene, camera);
+            cube = null;
         }
 
 

@@ -17,10 +17,16 @@
 </head>
 
 <body>
-    <canvas id="canvas"></canvas>
-    <button onclick="draw()">draw</button>
-    <button onclick="rotate()">rotate</button>
-    <button onclick="StopAnimate()">stop rotate</button>
+    <canvas id="canvas" width="1024" height="800"></canvas>
+    <p>
+            <button onclick="draw()">draw</button>
+            <button onclick="rotate()">rotate</button>
+            <button onclick="StopAnimate()">stop rotate</button>
+            <button onclick="enlarge()">enlarge</button>
+            <button onclick="lessen()">lessen</button>
+            <button onclick="drawline()">drawline</button>
+    </p>
+
 
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -58,7 +64,9 @@
                 canvas: document.getElementById('canvas')
             })
 
+            //设置透明背景
             renderer.setClearColor(new THREE.Color(0x000000), 0)
+
             //开启设备摄像头
             arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType: 'webcam',
@@ -83,6 +91,7 @@
 
         }
 
+        //渲染
         function render() {
             renderer.render(scene, camera);
         }
@@ -93,46 +102,65 @@
                 arToolkitContext.update(arToolkitSource.domElement);
         }
 
+        //动画
         function animate() {
             if (flag == 1) {
-                cube.rotation.x += 0.01; //x轴每秒旋转60次
-                cube.rotation.y += 0.01;//y轴每秒旋转60次*/
+                cube.rotation.x += 0.0058; //x轴每秒旋转60次
+                cube.rotation.y += 0.0058;//y轴每秒旋转60次*/
+            }
+            else if (flag == 2) {
+                cube.scale.x += 0.001;
+                cube.scale.y += 0.001;
+                cube.scale.z += 0.001;
+            }
+            else if (flag == 3) {
+                cube.scale.x -= 0.001;
+                cube.scale.y -= 0.001;
+                cube.scale.z -= 0.001;
+            }
+            else if (flag == 4) {
+                let canvas = document.getElementById("canvas");
+                let ctx = canvas.getContext("webgl");
+
+                canvas.onmousedown = function (e) {
+                    // console.log(canvas)
+                    // console.log(ctx);
+                    if (flag !=4) return;
+                    var geometry = new THREE.Geometry();
+                    var material = new THREE.LineBasicMaterial({ vertexColors: true });
+                    var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
+
+                    var geometry = new THREE.Geometry();
+                    var material = new THREE.LineBasicMaterial({ vertexColors: true });
+                    var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
+
+                    let pX = (e.clientX / canvas.clientWidth) * 2 - 1;
+                    let pY = - (e.clientY / canvas.clientHeight) * 2 + 1;
+                    // 线的材质可以由2点的颜色决定
+                    var p1 = new THREE.Vector3(0, 0, 0);
+                    var p2 = new THREE.Vector3(pX, pY, 0);
+                    geometry.vertices.push(p1);
+                    geometry.vertices.push(p2);
+                    geometry.colors.push(color1, color2);
+                    var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
+                    scene.add(line);
+                }
             }
             requestAnimationFrame(animate);
             update();
             render();
         }
 
-        let canvas = document.getElementById("canvas");
-        let ctx = canvas.getContext("webgl");
+        //画线   
+        function drawline() {
+            if (flag == 4) {
+                flag = 0;
+                return;
+            }
+            flag = 4;
+            animate();
+        }
 
-        console.log(canvas)
-        console.log(ctx);
-
-        var geometry = new THREE.Geometry();
-        var material = new THREE.LineBasicMaterial({ vertexColors: true });
-        var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
-
-        //画线
-        // canvas.onmousedown = function (e) {
-        //     var geometry = new THREE.Geometry();
-        //     var material = new THREE.LineBasicMaterial({ vertexColors: true });
-        //     var color1 = new THREE.Color(0x444444), color2 = new THREE.Color(0xFF0000);
-
-        //     let pX = (e.clientX / canvas.clientWidth) * 2 - 1;
-        //     let pY = - (e.clientY / canvas.clientHeight) * 2 + 1;
-        //     // 线的材质可以由2点的颜色决定
-        //     var p1 = new THREE.Vector3(0, 0, 0);
-        //     var p2 = new THREE.Vector3(pX, pY, 0);
-        //     geometry.vertices.push(p1);
-        //     geometry.vertices.push(p2);
-        //     geometry.colors.push(color1, color2);
-        //     var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
-        //     scene.add(line);
-
-        //     var circle = new THREE.CircleGeometry(1, 1, 0, 2 * Math.PI);
-        //     scene.add(circle)
-        // }
 
         //画长方体
         function draw() {
@@ -142,18 +170,46 @@
                 cube = new THREE.Mesh(geometry, material);
                 scene.add(cube);
                 render();
+                console.log(cube)
             }
 
         }
 
+        //旋转
         function rotate() {
+            if (flag == 1) {
+                flag = 0;
+                return;
+            }
             flag = 1;
             animate();
         }
 
+        //停止旋转
         function StopAnimate() {
             flag = 0;
         }
+
+        //放大
+        function enlarge() {
+            if (flag == 2) {
+                flag = 0;
+                return;
+            }
+            flag = 2;
+            animate();
+        }
+
+        //缩小
+        function lessen() {
+            if (flag == 3) {
+                flag = 0;
+                return;
+            }
+            flag = 3;
+            animate();
+        }
+
 
     </script>
 </body>

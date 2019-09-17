@@ -27,6 +27,11 @@
             <button onclick="drawline()">drawline</button>
             <button onclick="ClearCanvas()">ClearCanvas</button>
             <button onclick="MoveCube()">MoveCube</button>
+            <select name="colors">
+                <option value="black">black</option>
+                <option value="red">red</option>
+                <option value="green">green</option>
+            </select>
     </p>
 
 
@@ -174,6 +179,12 @@
                 scene.add(cube);
                 render();
             }
+
+        }
+
+        if(!cube) {
+            var index = document.getElementById("colors").textContent;
+            console.log(index)
 
         }
 

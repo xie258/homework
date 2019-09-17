@@ -19,7 +19,8 @@
 <body>
     <canvas id="canvas" width="1024" height="800"></canvas>
     <p>
-            <button onclick="draw()">draw</button>
+            <button onclick="drawCube()">drawCube</button>
+            <button onclick="drawSphere()">drawSphere</button>
             <button onclick="rotate()">rotate</button>
             <button onclick="StopAnimate()">stop rotate</button>
             <button onclick="enlarge()">enlarge</button>
@@ -27,7 +28,7 @@
             <button onclick="drawline()">drawline</button>
             <button onclick="ClearCanvas()">ClearCanvas</button>
             <button onclick="MoveCube()">MoveCube</button>
-            <select name="colors">
+            <select id="colors" onChange="ChangeColor()">
                 <option value="black">black</option>
                 <option value="red">red</option>
                 <option value="green">green</option>
@@ -45,6 +46,8 @@
         var mesh1;
 
         var cube;
+
+        var sphere;
 
         var flag = 0; // 动画对象
 
@@ -152,8 +155,8 @@
                     geometry.colors.push(color1, color2);
                     var line = new THREE.Line(geometry, material, new THREE.LineSegments(geometry, material));
                     scene.add(line);
-                }
             }
+        }
             requestAnimationFrame(animate);
             update();
             render();
@@ -171,7 +174,7 @@
 
 
         //画长方体
-        function draw() {
+        function drawCube() {
             if (!cube) {
                 var geometry = new THREE.BoxGeometry(1, 1, 1);
                 var material = new THREE.MeshBasicMaterial({ color: "yellow" });
@@ -182,11 +185,28 @@
 
         }
 
-        if(!cube) {
-            var index = document.getElementById("colors").textContent;
-            console.log(index)
+        //画球体
+        function drawSphere() {
+            if (!cube) {
+                var radius = 50, segemnt = 16, rings =16;
+                var sphereMaterial = new THREE.MeshBasicMaterial( {color:"pink"});
+                cube = new THREE.Mesh( 
+                    new THREE.SphereGeometry(radius, segemnt, rings),
+                    sphereMaterial
+                )
+                camera = new THREE.PerspectiveCamera( 45, 400 / 300, 0.1, 10000 );
+                camera.position.z=500;
+
+                cube.geometry.verticesNeedUpdate = true;
+                cube.geometry.normalsNeedUpdate = true;
+
+                scene.add(cube);
+                render();
+            }
 
         }
+
+
 
         //旋转
         function rotate() {
@@ -266,6 +286,15 @@
                 cube.position.x = (XBack - XFront) + cube.position.x;
                 cube.position.y = (YBack - YFront) + cube.position.y;
                 render();
+            }
+        }
+
+        function ChangeColor() {
+            if(cube) {
+            var index=document.getElementById("colors").selectedIndex;
+            var color = document.getElementById("colors").options[index].value;
+            cube.material=new THREE.MeshBasicMaterial({ color: color});
+            render();
             }
         }
 

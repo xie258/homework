@@ -26,6 +26,7 @@
             <button onclick="lessen()">lessen</button>
             <button onclick="drawline()">drawline</button>
             <button onclick="ClearCanvas()">ClearCanvas</button>
+            <button onclick="MoveCube()">MoveCube</button>
     </p>
 
 
@@ -41,6 +42,8 @@
         var cube;
 
         var flag = 0; // 动画对象
+
+        var XFront, XBack, YFront, YBack;  //Cube 坐标
 
         initialize();
 
@@ -224,6 +227,36 @@
             cube = null;
         }
 
+        function MoveCube() {
+
+            if (!cube) return;
+            
+            if (flag == 7) {
+                flag = 0;
+                return;
+            }
+
+            flag = 7;
+
+            let canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("webgl");
+
+            canvas.onmousedown = function (e) {
+                if (flag != 7) return;
+                XFront = (e.clientX / canvas.clientWidth) * 2 - 1;
+                YFront = - (e.clientY / canvas.clientHeight) * 2 + 1;
+            }
+
+            canvas.onmouseup = function(e) {
+                if (flag != 7) return;
+                XBack = (e.clientX / canvas.clientWidth) * 2 -1;
+                YBack = - (e.clientY / canvas.clientHeight) *2 +1;
+
+                cube.position.x = (XBack - XFront) + cube.position.x;
+                cube.position.y = (YBack - YFront) + cube.position.y;
+                render();
+            }
+        }
 
     </script>
 </body>

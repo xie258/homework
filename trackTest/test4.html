@@ -101,13 +101,16 @@
         for (var i = 0; i < Math.min(10, event.data.length); i++) {
           var template = event.data[i].keypoint1;
           var frame = event.data[i].keypoint2;
-          context.beginPath();
-          context.strokeStyle = 'magenta';
-          context.moveTo(frame[0], frame[1]);
-          context.lineTo(boxLeft + template[0], template[1]);
-          alert('frame:',frame[0],frame[1])
-          alert('template:', template[0], template[1])
-          context.stroke();
+        //   context.beginPath();
+        //   context.strokeStyle = 'magenta';
+        //   context.moveTo(frame[0], frame[1]);
+        //   context.lineTo(boxLeft + template[0], template[1]);
+        //   context.stroke();
+        context.strokeStyle = "#60"
+        context.lineWidth = 4;
+        context.stroRect(frame[0], frame[1], frame[0]+50, frame[1]+50)
+
+          
         }
       });
       var trackerTask = tracking.track(video, tracker, { camera: true });

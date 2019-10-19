@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>tracking.js - color hello world</title>
+
+    <script src="../../tracking.js-master/build/tracking-min.js"></script>
+
+    <style>
+        /* #image1, #image2 {
+            position: absolute;
+            left: -1000px;
+            top: -1000px;
+        }
+
+        #canvas {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -393px;
+            margin-top: -147px;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="demo-frame">
+        <div class="demo-container">
+            <img id="image1" src="https://xie258.github.io/homework/trackTest/Assets/brief1.png" />
+            <img id="image2" src="https://xie258.github.io/homework/trackTest/Assets/brief2.png" />
+            <canvas id="canvas" width="786" height="295"></canvas>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            var width = 393;
+            var height = 295;
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            var image1 = document.getElementById('image1');
+            var image2 = document.getElementById('image2');
+
+            window.descriptorLength = 256;
+            window.matchesShown = 30;
+            window.blurRadius = 3;
+
+            var doMatch = function () {
+                tracking.Brief.N = window.descriptorLength;
+
+                context.drawImage(image1, 0, 0, width, height);
+                context.drawImage(image2, width, 0, width, height);
+
+                var imageData1 = context.getImageData(0, 0, width, height);
+            }
+
+            doMatch();
+        }
+    </script>
+
+</body>
+
+</html>

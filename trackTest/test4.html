@@ -101,12 +101,12 @@
         for (var i = 0; i < Math.min(10, event.data.length); i++) {
           var template = event.data[i].keypoint1;
           var frame = event.data[i].keypoint2;
-        //   context.beginPath();
-        //   context.strokeStyle = 'magenta';
-        //   context.moveTo(frame[0], frame[1]);
-        //   context.lineTo(boxLeft + template[0], template[1]);
-        //   context.stroke();
-        context.strokeStyle = "#00"
+          context.beginPath();
+          context.strokeStyle = 'magenta';
+          context.moveTo(frame[0], frame[1]);
+          context.lineTo(boxLeft + template[0], template[1]);
+          context.stroke();
+        context.strokeStyle = "#99"
         context.lineWidth = 5;
         context.stroRect(frame[0], frame[1], frame[0]+50, frame[1]+50)
 
